@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dual Player</title>
+    <style>
+        #container {
+            position: relative;
+            width: 1280px;
+            /* Adjust as needed */
+            height: 720px;
+            /* Adjust as needed */
+            overflow: hidden;
+        }
+
+        #myVideo,
+        #myVideo2 {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        #myVideo {
+            z-index: 2;
+            clip-path: inset(0 50% 0 0);
+        }
+
+        #myVideo2 {
+            z-index: 1;
+        }
+
+        /* Style for the slider */
+        #myRange {
+            position: absolute;
+            width: 100%;
+            top: 10px;
+            /* Adjust as needed */
+            z-index: 3;
+        }
+
+        #seekSlider {
+            position: absolute;
+            width: 100%;
+            bottom: 10px;
+            /* Adjust as needed */
+            z-index: 3;
+        }
+
+        #seekLabel {
+            position: absolute;
+            width: 100%;
+            bottom: 10px;
+            /* Adjust as needed */
+            z-index: 3;
+            color: white;
+            background-color: black;
+        }
+
+        /* Style for the separator line */
+        #separator {
+            position: absolute;
+            height: 100%;
+            width: 2px;
+            /* Adjust as needed */
+            background-color: red;
+            z-index: 3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="container">
+        <video id="myVideo" src="shortvovf1.mp4" type="video/mp4" muted autoplay></video>
+        <video id="myVideo2" src="shortvovf2.mp4" type="video/mp4" muted autoplay></video>
+        <!-- Separator line -->
+        <div id="separator"></div>
+        <!-- Slider for video transition -->
+        <input type="range" min="20" max="98" value="50" class="slider" id="myRange">
+        <!-- Slider for seeking -->
+        <label id="seekLabel"> Seek
+            <input type="range" min="0" max="100" value="0" name="seekSlider" id="seekSlider" class="slider">
+        </label>
+    </div>
+    </div>
+
+    <br>
+    <button onclick="playVideo()">Play</button>
+    <button onclick="stopVideo()">Stop</button>
+    <button onclick="pauseVideo()">Pause</button>
+    <button onclick="fastForward()">Fast Forward</button>
+    <button onclick="rewind()">Rewind</button>
+    <!-- File inputs for each video -->
+    <br>
+    <input type="file" id="video1File" accept="video/mp4">
+    <input type="file" id="video2File" accept="video/mp4">
+    <button onclick="loadVideos()">Load Videos</button>
+    <!-- Text inputs for each video URL -->
+    <br><br>
+    <input type="text" id="video1Url" placeholder="URL for video 1">
+    <input type="text" id="video2Url" placeholder="URL for video 2">
+    <button onclick="loadVideos()">Load Videos</button>
+
+    <br>
+    <label for="size">Size:</label>
+    <input type="range" min="1" max="100" value="100" class="slider" id="size">
+    </br>
+    <!-- Radio buttons for container size -->
+    <table>
+        <tr>
+            <td>
+                <input type="radio" id="size50" name="size" value="50">
+                <label for="size50">50%</label><br>
+                <input type="radio" id="size75" name="size" value="75">
+                <label for="size75">75%</label><br>
+                <input type="radio" id="size95" name="size" value="95" checked>
+                <label for="size95">95%</label><br>
+            <td>
+
+                <!-- Slider for container size -->
+            <td>
+                <label for="size">Size:</label>
+                <input type="range" min="1" max="100" value="100" class="slider" id="size">
+            </td>
+        </tr>
+    </table>
+
+
+
+
+    <script>
+        var video = document.getElementById("myVideo");
+        var video2 = document.getElementById("myVideo2");
+        var slider = document.getElementById("myRange");
+        var sizeSlider = document.getElementById("size");
+        var seekSlider = document.getElementById("seekSlider");
+        var container = document.getElementById("container");
+        var separator = document.getElementById("separator");
+
+        // player video
+        function playVideo() {
+            video.play();
+            video2.play();
+        }
+
+        function stopVideo() {
+            video.currentTime = 0;
+            video.pause();
+            video2.currentTime = 0;
+            video2.pause();
+        }
+
+        function pauseVideo() {
+            video.pause();
+            video2.pause();
+        }
+        function fastForward() {
+            video.currentTime += 10;
+            video2.currentTime += 10;
+        }
+
+        function rewind() {
+            video.currentTime -= 10;
+            video2.currentTime -= 10;
+        }
+        //chargement des videos
+        function loadVideos() {
+            var video1File = document.getElementById("video1File");
+            var video2File = document.getElementById("video2File");
+            var video1Url = document.getElementById("video1Url");
+            var video2Url = document.getElementById("video2Url");
+            if (video1File.files[0]) {
+                video.src = URL.createObjectURL(video1File.files[0]);
+            } else if (video1Url.value) {
+                video.src = video1Url.value;
+            }
+            if (video2File.files[0]) {
+                video2.src = URL.createObjectURL(video2File.files[0]);
+            } else if (video2Url.value) {
+                video2.src = video2Url.value;
+            }
+        }
+        // gestion de la zone de separation
+        slider.oninput = function () {
+            video.style.clipPath = "inset(0 " + (100 - this.value) + "% 0 0)";
+            separator.style.left = this.value + "%";
+        }
+        // gestion de l'appui sur la barre espace
+        window.onkeydown = function (e) {
+            if (e.keyCode == 32) { // 32 is the keyCode for the spacebar
+                if (video.paused) {
+                    playVideo();
+                } else {
+                    pauseVideo();
+                }
+                e.preventDefault(); // prevent the default action (scroll / move caret)
+            }
+        }
+
+        // Event listener for container size radio buttons
+        document.querySelectorAll('input[name="size"]').forEach((elem) => {
+            elem.addEventListener("change", function (event) {
+                container.style.width = event.target.value + "%";
+            });
+        });
+
+        sizeSlider.oninput = function () {
+            container.style.width = this.value + "%";
+            container.style.height = (this.value * 9 / 16) + "vw";
+        }
+
+        //gestion slider seek
+        video.ontimeupdate = function () {
+            var value = video.currentTime * (100 / video.duration);
+            seekSlider.value = value;
+        }
+
+        video2.ontimeupdate = function () {
+            var value = video2.currentTime * (100 / video2.duration);
+            seekSlider.value = value;
+        }
+
+        seekSlider.oninput = function () {
+            var seekTo = video.duration * (seekSlider.value / 100);
+            video.currentTime = seekTo;
+            video2.currentTime = seekTo;
+        }
+
+        // Call the slider.oninput function to position the separator correctly when the page loads
+        slider.oninput();
+
+    </script>
+
+</body>
+
+</html>
