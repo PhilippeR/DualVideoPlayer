@@ -65,6 +65,23 @@
             background-color: red;
             z-index: 3;
         }
+        /* Style for the video labels */
+        .videoLabel {
+            position: absolute;
+            color: white;
+            background-color: black;
+            padding: 5px;
+            z-index: 3;
+        }
+        #video1Label {
+            top: 0;
+            left: 0;
+        }
+        #video2Label {
+            top: 0;
+            right: 0;
+        }
+        
     </style>
 </head>
 
@@ -75,6 +92,9 @@
         <video id="myVideo2" src="shortvovf2.mp4" type="video/mp4" muted autoplay></video>
         <!-- Separator line -->
         <div id="separator"></div>
+        <!-- Video labels -->
+        <div id="video1Label" class="videoLabel"></div>
+        <div id="video2Label" class="videoLabel"></div>        
         <!-- Slider for video transition -->
         <input type="range" min="02" max="98" value="50" class="slider" id="myRange">
         <!-- Slider for seeking -->
@@ -174,13 +194,17 @@
             var video2Url = document.getElementById("video2Url");
             if (video1File.files[0]) {
                 video.src = URL.createObjectURL(video1File.files[0]);
+                video1Label.textContent = video1File.files[0].name;
             } else if (video1Url.value) {
                 video.src = video1Url.value;
+                video1Label.textContent = video1Url.value;
             }
             if (video2File.files[0]) {
                 video2.src = URL.createObjectURL(video2File.files[0]);
+                video2Label.textContent = video2File.files[0].name;
             } else if (video2Url.value) {
                 video2.src = video2Url.value;
+                ideo2Label.textContent = video2Url.value;
             }
         }
         // gestion de la zone de separation
