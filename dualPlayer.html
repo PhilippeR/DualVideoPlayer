@@ -30,7 +30,7 @@
         }
 
         /* Style for the slider */
-        #myRange {
+        #PictureSlider {
             position: absolute;
             width: 100%;
             top: 20px;
@@ -88,7 +88,6 @@
 </head>
 
 <body>
-
     <div id="container">
         <video id="myVideo" src="shortvovf1.mp4" type="video/mp4" muted autoplay></video>
         <video id="myVideo2" src="shortvovf2.mp4" type="video/mp4" muted autoplay></video>
@@ -98,7 +97,7 @@
         <div id="video1Label" class="videoLabel"></div>
         <div id="video2Label" class="videoLabel"></div>
         <!-- Slider for video transition -->
-        <input type="range" min="02" max="98" value="50" class="slider" id="myRange">
+        <input type="range" min="02" max="98" value="50" class="slider" id="PictureSlider">
         <!-- Slider for seeking -->
         <label id="seekLabel"> Seek
             <input type="range" min="0" max="100" value="0" name="VideoSeekSlider" id="VideoSeekSlider" class="slider">
@@ -106,13 +105,14 @@
     </div>
 
     <div id="buttons">
-    <br>
-    <button onclick="playVideo()">Play</button>
-    <button onclick="stopVideo()">Stop</button>
-    <button onclick="pauseVideo()">Pause</button>
-    <button onclick="rewind()"> &lt;&lt; </button>
-    <button onclick="fastForward()"> &gt;&gt; </button>
-</div>
+        <br>
+        <button onclick="playVideo()">Play</button>
+        <button onclick="stopVideo()">Stop</button>
+        <button onclick="pauseVideo()">Pause</button>
+        <button onclick="rewind()"> &lt;&lt; </button>
+        <button onclick="fastForward()"> &gt;&gt; </button>
+    </div>
+
     <table>
         <tr>
             <td>
@@ -152,13 +152,10 @@
         </tr>
     </table>
 
-
-
-
     <script>
         var video = document.getElementById("myVideo");
         var video2 = document.getElementById("myVideo2");
-        var slider = document.getElementById("myRange");
+        var slider = document.getElementById("PictureSlider");
         var VideoPlayerSizeSlider = document.getElementById("size");
         var VideoSeekSlider = document.getElementById("VideoSeekSlider");
         var container = document.getElementById("container");
@@ -235,13 +232,13 @@
             });
         });
 
-        // gestion slider size
+        // gestion VideoPlayerSizeSlider
         VideoPlayerSizeSlider.oninput = function () {
             container.style.width = this.value + "%";
             container.style.height = (this.value * 9 / 16) + "vw";
         }
 
-        //gestion slider seek
+        //gestion VideoSeekSlider
         video.ontimeupdate = function () {
             var value = video.currentTime * (100 / video.duration);
             VideoSeekSlider.value = value;
