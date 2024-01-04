@@ -3,7 +3,7 @@ An "as simple as possible" dual player to quickly compare two videos encoded wit
 Not Perfect but usefull.
 
 
-[Demo](https://htmlpreview.github.io/?https://github.com/PhilippeR/DualVideoPlayer/blob/main/dualPlayer.html){:target="_blank"}
+[Demo](https://htmlpreview.github.io/?https://github.com/PhilippeR/DualVideoPlayer/blob/main/dualPlayer.html)
 
 
 ![Image](screenshot.png)
