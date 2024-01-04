@@ -65,6 +65,7 @@
             background-color: red;
             z-index: 3;
         }
+
         /* Style for the video labels */
         .videoLabel {
             position: absolute;
@@ -73,15 +74,16 @@
             padding: 5px;
             z-index: 3;
         }
+
         #video1Label {
             top: 20;
             left: 0;
         }
+
         #video2Label {
             top: 20;
             right: 0;
         }
-        
     </style>
 </head>
 
@@ -94,7 +96,7 @@
         <div id="separator"></div>
         <!-- Video labels -->
         <div id="video1Label" class="videoLabel"></div>
-        <div id="video2Label" class="videoLabel"></div>        
+        <div id="video2Label" class="videoLabel"></div>
         <!-- Slider for video transition -->
         <input type="range" min="02" max="98" value="50" class="slider" id="myRange">
         <!-- Slider for seeking -->
@@ -102,48 +104,50 @@
             <input type="range" min="0" max="100" value="0" name="seekSlider" id="seekSlider" class="slider">
         </label>
     </div>
-    </div>
 
+    <div id="buttons">
     <br>
     <button onclick="playVideo()">Play</button>
     <button onclick="stopVideo()">Stop</button>
     <button onclick="pauseVideo()">Pause</button>
-    <button onclick="rewind()"> << </button>
-    <button onclick="fastForward()"> >> </button>
-    <!-- File inputs for each video -->
-    <br>
-    <input type="file" id="video1File" title=" <-- video" >
-    <br>
-    <input type="file" id="video2File" title=" video --> ">
-    <br>
-    <button onclick="loadVideos()">Load Videos</button>
-    <!-- Text inputs for each video URL -->
-    <br>
-    <input type="text" id="video1Url" placeholder="URL for video 1">
-    <br>
-    <input type="text" id="video2Url" placeholder="URL for video 2">
-    <button onclick="loadVideos()">Load Videos</button>
-
-    <br>
-    <label for="size">Size:</label>
-    <input type="range" min="1" max="100" value="100" class="slider" id="size">
-    </br>
-    <!-- Radio buttons for container size -->
+    <button onclick="rewind()"> &lt;&lt; </button>
+    <button onclick="fastForward()"> &gt;&gt; </button>
+</div>
     <table>
         <tr>
             <td>
-                <input type="radio" id="size50" name="size" value="50">
-                <label for="size50">50%</label><br>
-                <input type="radio" id="size75" name="size" value="75">
-                <label for="size75">75%</label><br>
-                <input type="radio" id="size95" name="size" value="95" checked>
-                <label for="size95">95%</label><br>
+                <!-- File inputs for each video -->
+                <br>
+                <input type="file" id="video1File" title="video1">
+                <br>
+                <input type="file" id="video2File" title="video2">
+                <br>
+                <!-- Text inputs for each video URL -->
+                <br>
+                <input type="text" id="video1Url" placeholder="URL for video 1">
+                <br>
+                <input type="text" id="video2Url" placeholder="URL for video 2">
             <td>
-
+            <td>
                 <!-- Slider for container size -->
+                <button onclick="loadVideos()">Load Videos</button>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
             <td>
-                <label for="size">Size:</label>
-                <input type="range" min="1" max="100" value="100" class="slider" id="size">
+                <label>Player Size:</label>
+                <input type="radio" id="size50" name="size" value="50">
+                <label for="size50">50%</label>
+                <input type="radio" id="size75" name="size" value="75">
+                <label for="size75">75%</label>
+                <input type="radio" id="size95" name="size" value="95" checked>
+                <label for="size95">95%</label>
+            <td>
+            <td>
+                <!-- Slider for container size -->
+                <input type="range" min="1" max="100" value="50" step="10" class="slider" id="size">
             </td>
         </tr>
     </table>
