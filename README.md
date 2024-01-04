@@ -5,4 +5,4 @@ An "as simple as possible" dual player to quickly compare two videos encoded wit
 [Demo](https://htmlpreview.github.io/?https://github.com/PhilippeR/DualVideoPlayer/blob/main/dualPlayer.html)
 
 
-![Image](scrennshot.png)
+![Image](screenshot.png)
