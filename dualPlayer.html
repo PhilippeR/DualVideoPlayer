@@ -38,7 +38,7 @@
             z-index: 3;
         }
 
-        #seekSlider {
+        #VideoSeekSlider {
             position: absolute;
             width: 100%;
             bottom: 10px;
@@ -101,7 +101,7 @@
         <input type="range" min="02" max="98" value="50" class="slider" id="myRange">
         <!-- Slider for seeking -->
         <label id="seekLabel"> Seek
-            <input type="range" min="0" max="100" value="0" name="seekSlider" id="seekSlider" class="slider">
+            <input type="range" min="0" max="100" value="0" name="VideoSeekSlider" id="VideoSeekSlider" class="slider">
         </label>
     </div>
 
@@ -159,8 +159,8 @@
         var video = document.getElementById("myVideo");
         var video2 = document.getElementById("myVideo2");
         var slider = document.getElementById("myRange");
-        var sizeSlider = document.getElementById("size");
-        var seekSlider = document.getElementById("seekSlider");
+        var VideoPlayerSizeSlider = document.getElementById("size");
+        var VideoSeekSlider = document.getElementById("VideoSeekSlider");
         var container = document.getElementById("container");
         var separator = document.getElementById("separator");
 
@@ -235,7 +235,8 @@
             });
         });
 
-        sizeSlider.oninput = function () {
+        // gestion slider size
+        VideoPlayerSizeSlider.oninput = function () {
             container.style.width = this.value + "%";
             container.style.height = (this.value * 9 / 16) + "vw";
         }
@@ -243,16 +244,16 @@
         //gestion slider seek
         video.ontimeupdate = function () {
             var value = video.currentTime * (100 / video.duration);
-            seekSlider.value = value;
+            VideoSeekSlider.value = value;
         }
 
         video2.ontimeupdate = function () {
             var value = video2.currentTime * (100 / video2.duration);
-            seekSlider.value = value;
+            VideoSeekSlider.value = value;
         }
 
-        seekSlider.oninput = function () {
-            var seekTo = video.duration * (seekSlider.value / 100);
+        VideoSeekSlider.oninput = function () {
+            var seekTo = video.duration * (VideoSeekSlider.value / 100);
             video.currentTime = seekTo;
             video2.currentTime = seekTo;
         }
