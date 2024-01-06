@@ -67,7 +67,8 @@
         }
 
         /* Style for the video labels */
-        .videoLabel {
+        .videoLabel,
+        .currenttime {
             position: absolute;
             color: white;
             background-color: black;
@@ -84,6 +85,23 @@
             top: 0;
             right: 0;
         }
+
+        #currenttime1 {
+            bottom: 30px;
+            left: 0;
+        }
+
+        #currenttime2 {
+            bottom: 30px;
+            right: 0;
+        }
+
+        #difftime {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
     </style>
 </head>
 
@@ -96,6 +114,12 @@
         <!-- Video labels -->
         <div id="video1Label" class="videoLabel"></div>
         <div id="video2Label" class="videoLabel"></div>
+        <!-- Current an diff Time labels -->
+        <div id="timedisplay">
+            <div id="currenttime1" class="currenttime"></div>
+            <div id="currenttime2" class="currenttime"></div>
+            <div id="difftime" class="currenttime"></div>
+        </div>
         <!-- Slider for video transition -->
         <input type="range" min="02" max="98" value="50" class="slider" id="PictureSlider">
         <!-- Slider for seeking -->
@@ -111,8 +135,25 @@
         <button onclick="pauseVideo()">Pause</button>
         <button onclick="rewind()"> &lt;&lt; </button>
         <button onclick="fastForward()"> &gt;&gt; </button>
+        <button onclick="toggleTimeDisplay()">Time display</button>
     </div>
-
+    <table>
+        <tr>
+            <td>
+                <label>Player Size:</label>
+                <input type="radio" id="size50" name="size" value="50">
+                <label for="size50">50%</label>
+                <input type="radio" id="size75" name="size" value="75">
+                <label for="size75">75%</label>
+                <input type="radio" id="size95" name="size" value="95" checked>
+                <label for="size95">95%</label>
+            <td>
+            <td>
+                <!-- Slider for container size -->
+                <input type="range" min="1" max="100" value="50" step="10" class="slider" id="size">
+            </td>
+        </tr>
+    </table>
     <table>
         <tr>
             <td>
@@ -134,23 +175,7 @@
             </td>
         </tr>
     </table>
-    <table>
-        <tr>
-            <td>
-                <label>Player Size:</label>
-                <input type="radio" id="size50" name="size" value="50">
-                <label for="size50">50%</label>
-                <input type="radio" id="size75" name="size" value="75">
-                <label for="size75">75%</label>
-                <input type="radio" id="size95" name="size" value="95" checked>
-                <label for="size95">95%</label>
-            <td>
-            <td>
-                <!-- Slider for container size -->
-                <input type="range" min="1" max="100" value="50" step="10" class="slider" id="size">
-            </td>
-        </tr>
-    </table>
+
 
     <script>
         var video = document.getElementById("myVideo");
@@ -160,6 +185,7 @@
         var VideoSeekSlider = document.getElementById("VideoSeekSlider");
         var container = document.getElementById("container");
         var separator = document.getElementById("separator");
+        var timeDisplay = document.getElementById("timedisplay");
 
         // player video
         function playVideo() {
@@ -187,6 +213,28 @@
             video.currentTime -= 10;
             video2.currentTime -= 10;
         }
+
+
+        // display current time of each video
+        function timeupdate1() {
+            var curtime1 = video.currentTime;
+            var curtime2 = video2.currentTime;
+            currenttime1.textContent = curtime1;
+            currenttime2.textContent = curtime2;
+            difftime.textContent = curtime2 - curtime1;
+
+        }
+        video.addEventListener("timeupdate", timeupdate1);
+        
+        // affichage ou non du temps 
+        function toggleTimeDisplay() {
+            if (getComputedStyle(timeDisplay).display != "none") {
+                timeDisplay.style.display = "none";
+            } else {
+                timeDisplay.style.display = "block";
+            }
+        }
+
         //chargement des videos
         function loadVideos() {
             var video1File = document.getElementById("video1File");
@@ -205,7 +253,7 @@
                 video2Label.textContent = video2File.files[0].name;
             } else if (video2Url.value) {
                 video2.src = video2Url.value;
-                ideo2Label.textContent = video2Url.value;
+                video2Label.textContent = video2Url.value;
             }
         }
         // gestion de la zone de separation
