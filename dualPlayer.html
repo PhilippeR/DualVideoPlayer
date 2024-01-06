@@ -121,7 +121,7 @@
             <div id="difftime" class="currenttime"></div>
         </div>
         <!-- Slider for video transition -->
-        <input type="range" min="02" max="98" value="50" class="slider" id="PictureSlider">
+        <input type="range" min="05" max="95" value="50" class="slider" id="PictureSlider">
         <!-- Slider for seeking -->
         <label id="seekLabel"> Seek
             <input type="range" min="0" max="100" value="0" name="VideoSeekSlider" id="VideoSeekSlider" class="slider">
@@ -135,7 +135,8 @@
         <button onclick="pauseVideo()">Pause</button>
         <button onclick="rewind()"> &lt;&lt; </button>
         <button onclick="fastForward()"> &gt;&gt; </button>
-        <button onclick="toggleTimeDisplay()">Time display</button>
+        <button onclick="toggleTimeDisplay()">Time display ON/OFF</button>
+        <button onclick="videoSync()">Players sync</button>
     </div>
     <table>
         <tr>
@@ -145,12 +146,18 @@
                 <label for="size50">50%</label>
                 <input type="radio" id="size75" name="size" value="75">
                 <label for="size75">75%</label>
-                <input type="radio" id="size95" name="size" value="95" checked>
+                <input type="radio" id="size85" name="size" value="85" checked>
+                <label for="size95">85%</label>
+                <input type="radio" id="size90" name="size" value="90" >
+                <label for="size95">90%</label>
+                <input type="radio" id="size95" name="size" value="95" >
                 <label for="size95">95%</label>
+                <input type="radio" id="size100" name="size" value="100" >
+                <label for="size95">100%</label>
             <td>
             <td>
                 <!-- Slider for container size -->
-                <input type="range" min="1" max="100" value="50" step="10" class="slider" id="size">
+                <input type="range" min="25" max="100" value="50"  class="slider" id="size">
             </td>
         </tr>
     </table>
@@ -164,11 +171,11 @@
                 <input type="file" id="video2File" title="video2">
                 <br>
                 <!-- Text inputs for each video URL -->
-                <br>
+                <!-- <br>
                 <input type="text" id="video1Url" placeholder="URL for video 1">
                 <br>
                 <input type="text" id="video2Url" placeholder="URL for video 2">
-            <td>
+            <td> -->
             <td>
                 <!-- Slider for container size -->
                 <button onclick="loadVideos()">Load Videos</button>
@@ -213,8 +220,14 @@
             video.currentTime -= 10;
             video2.currentTime -= 10;
         }
+        //video sync
+        function videoSync() {
 
-
+            if (video.currentTime !== video2.currentTime) {
+                video2.currentTime = video.currentTime;
+                console.log("sync on")
+            }
+        }
         // display current time of each video
         function timeupdate1() {
             var curtime1 = video.currentTime;
@@ -222,11 +235,10 @@
             currenttime1.textContent = curtime1;
             currenttime2.textContent = curtime2;
             difftime.textContent = curtime2 - curtime1;
-
         }
         video.addEventListener("timeupdate", timeupdate1);
-        
-        // affichage ou non du temps 
+
+        // time display on/off 
         function toggleTimeDisplay() {
             if (getComputedStyle(timeDisplay).display != "none") {
                 timeDisplay.style.display = "none";
@@ -234,8 +246,7 @@
                 timeDisplay.style.display = "block";
             }
         }
-
-        //chargement des videos
+        //load videos
         function loadVideos() {
             var video1File = document.getElementById("video1File");
             var video2File = document.getElementById("video2File");
@@ -277,6 +288,7 @@
         document.querySelectorAll('input[name="size"]').forEach((elem) => {
             elem.addEventListener("change", function (event) {
                 container.style.width = event.target.value + "%";
+                container.style.height = (event.target.value * 9 / 16) + "vw";
             });
         });
 
@@ -284,17 +296,6 @@
         VideoPlayerSizeSlider.oninput = function () {
             container.style.width = this.value + "%";
             container.style.height = (this.value * 9 / 16) + "vw";
-        }
-
-        //gestion VideoSeekSlider
-        video.ontimeupdate = function () {
-            var value = video.currentTime * (100 / video.duration);
-            VideoSeekSlider.value = value;
-        }
-
-        video2.ontimeupdate = function () {
-            var value = video2.currentTime * (100 / video2.duration);
-            VideoSeekSlider.value = value;
         }
 
         VideoSeekSlider.oninput = function () {
@@ -305,9 +306,9 @@
 
         // Call the slider.oninput function to position the separator correctly when the page loads
         slider.oninput();
+        toggleTimeDisplay();
 
     </script>
-
 </body>
 
 </html>
