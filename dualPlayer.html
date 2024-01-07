@@ -147,7 +147,7 @@
                 <label for="size95">100%</label>
             <td>
             <td>
-                <!-- Slider for container size -->
+                <!-- Slider for players size -->
                 <input type="range" min="25" max="100" value="50" class="slider" id="size">
             </td>
         </tr>
@@ -176,13 +176,12 @@
 
 
     <script>
-        var video = document.getElementById("myVideo");
-        var video2 = document.getElementById("myVideo2");
-        var slider = document.getElementById("PictureSlider");
-        var VideoPlayerSizeSlider = document.getElementById("size");
-        var VideoSeekSlider = document.getElementById("VideoSeekSlider");
         var container = document.getElementById("container");
         var separator = document.getElementById("separator");
+        var video = document.getElementById("myVideo");
+        var video2 = document.getElementById("myVideo2");
+        var VideoPlayerSizeSlider = document.getElementById("size");
+        var VideoSeekSlider = document.getElementById("VideoSeekSlider");
         var timeDisplay = document.getElementById("timedisplay");
 
         // player video
@@ -215,9 +214,11 @@
         function videoSync() {
 
             if (video.currentTime !== video2.currentTime) {
+                console.log("avant: "+video.currentTime +"--"+video2.currentTime);
                 video2.currentTime = video.currentTime;
                 timeupdate1();
-                console.log("sync on")
+                console.log("apres: "+video.currentTime +"--"+video2.currentTime);
+                console.log("sync done")
             }
         }
         // display current time of each video
@@ -333,9 +334,8 @@
             return texteFormat;
         }
 
-        // Call the slider.oninput function to position the separator correctly when the page loads
-        slider.oninput();
-        toggleTimeDisplay();
+        // Call  when the page loads
+
 
     </script>
 </body>
