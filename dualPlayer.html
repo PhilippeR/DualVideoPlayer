@@ -100,8 +100,8 @@
 
 <body>
     <div id="container">
-        <video id="myVideo" src="shortvovf1.mp4" type="video/mp4" muted autoplay></video>
-        <video id="myVideo2" src="shortvovf2.mp4" type="video/mp4" muted autoplay></video>
+        <video id="myVideo" src="shortvovf1.mp4" type="video/mp4" muted autoplay ></video>
+        <video id="myVideo2" src="shortvovf2.mp4" type="video/mp4" muted autoplay ></video>
         <!-- Separator line -->
         <div id="separator"></div>
         <!-- Video labels -->
@@ -116,7 +116,7 @@
         <!-- Slider for seeking -->
         <label id="seekLabel"> Seek
             <input type="range" min="0" max="100" value="0" name="VideoSeekSlider" id="VideoSeekSlider" class="slider">
-        </label>
+        </label> 
     </div>
 
     <div id="buttons">
@@ -214,22 +214,29 @@
         function videoSync() {
 
             if (video.currentTime !== video2.currentTime) {
-                console.log("avant: "+video.currentTime +"--"+video2.currentTime);
+                //console.log("avant: "+video.currentTime +"--"+video2.currentTime);
                 video2.currentTime = video.currentTime;
                 timeupdate1();
-                console.log("apres: "+video.currentTime +"--"+video2.currentTime);
-                console.log("sync done")
+                //console.log("apres: "+video.currentTime +"--"+video2.currentTime);
+                //console.log("sync done")
             }
         }
-        // display current time of each video
+        // display current time of each video and diff between both
+        // seek slider position update
         function timeupdate1() {
-            let curtime1 = video.currentTime;
-            let curtime2 = video2.currentTime;
-            let diff = curtime2 - curtime1
+            let curTime1 = video.currentTime;
+            let curTime2 = video2.currentTime;
+            let totalDuration=video.duration;
+            let timePosition=(curTime1/totalDuration)*100;
+            let diff = curTime2 - curTime1;
             diff = diff.toFixed(3);
-            currenttime1.textContent = convertHHMMSS(curtime1);
-            currenttime2.textContent = convertHHMMSS(curtime2);
-            difftime.textContent = diff;
+            // 
+            currenttime1.textContent = convertHHMMSS(curTime1);
+            currenttime2.textContent = convertHHMMSS(curTime2);
+            difftime.textContent = "diff: "+ diff;
+            // seek slider position update 
+            VideoSeekSlider.value=timePosition;
+            console.log("time position:"+timePosition+ "%");
 
         }
         video.addEventListener("timeupdate", timeupdate1);
@@ -272,9 +279,10 @@
                     let x = event.clientX - rect.left; // Position X de la souris
                     let width = rect.right - rect.left; // Largeur de la div
                     let percentage = (x / width) * 100; // Position en pourcentage de la largeur de la div
+                    //masquage de la video 1
                     video.style.clipPath = "inset(0 " + (100 - percentage) + "% 0 0)";
+                    // maj postion separateur 
                     separator.style.left = percentage + "%";
-                    console.log('Position horizontale de la souris : ' + percentage + '%');
                 }
             }
         });
@@ -299,6 +307,7 @@
         document.querySelectorAll('input[name="size"]').forEach((elem) => {
             elem.addEventListener("change", function (event) {
                 container.style.width = event.target.value + "%";
+                // keep container 16/9 aspect ratio
                 container.style.height = (event.target.value * 9 / 16) + "vw";
             });
         });
