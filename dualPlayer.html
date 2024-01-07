@@ -13,38 +13,30 @@
             overflow: hidden;
         }
 
-        #myVideo,
-        #myVideo2 {
+        #leftPlayer,
+        #rightPlayer {
             position: absolute;
             width: 100%;
             height: 100%;
         }
 
-        #myVideo {
+        #leftPlayer {
             z-index: 2;
             clip-path: inset(0 50% 0 0);
         }
 
-        #myVideo2 {
+        #rightPlayer {
             z-index: 1;
         }
 
         #VideoSeekSlider {
             position: absolute;
-            width: 100%;
-            bottom: 10px;
+            width: 90%;
+            bottom: 0;
+            left: 50%;
+            transform: translate(-50%, -50%);
             /* Adjust as needed */
             z-index: 3;
-        }
-
-        #seekLabel {
-            position: absolute;
-            width: 100%;
-            bottom: 10px;
-            /* Adjust as needed */
-            z-index: 3;
-            color: white;
-            background-color: black;
         }
 
         /* Style for the separator line */
@@ -69,22 +61,22 @@
             z-index: 3;
         }
 
-        #video1Name {
+        #leftVideoName {
             top: 0;
             left: 0;
         }
 
-        #video2Name {
+        #rightVideoName {
             top: 0;
             right: 0;
         }
 
-        #currenttime1 {
+        #leftCurrentTime {
             bottom: 30px;
             left: 0;
         }
 
-        #currenttime2 {
+        #rightCurrentTime {
             bottom: 30px;
             right: 0;
         }
@@ -100,23 +92,23 @@
 
 <body>
     <div id="container">
-        <video id="myVideo" src="shortvovf1.mp4" type="video/mp4" muted autoplay ></video>
-        <video id="myVideo2" src="shortvovf2.mp4" type="video/mp4" muted autoplay ></video>
-        <!-- Separator line -->
-        <div id="separator"></div>
-        <!-- Video labels -->
-        <div id="video1Name" class="videoName"></div>
-        <div id="video2Name" class="videoName"></div>
-        <!-- Current an diff Time labels -->
-        <div id="timedisplay">
-            <div id="currenttime1" class="currenttime"></div>
-            <div id="currenttime2" class="currenttime"></div>
-            <div id="difftime" class="currenttime"></div>
+        <div id="player">
+            <video id="leftPlayer" src="shortvovf1.mp4" type="video/mp4" muted autoplay></video>
+            <video id="rightPlayer" src="shortvovf2.mp4" type="video/mp4" muted autoplay></video>
+            <!-- Separator line -->
+            <div id="separator"></div>
+            <!-- Video labels -->
+            <div id="leftVideoName" class="videoName"></div>
+            <div id="rightVideoName" class="videoName"></div>
+            <!-- Current an diff Time labels -->
+            <div id="timedisplay">
+                <div id="leftCurrentTime" class="currenttime"></div>
+                <div id="rightCurrentTime" class="currenttime"></div>
+                <div id="difftime" class="currenttime"></div>
+            </div>
         </div>
         <!-- Slider for seeking -->
-        <label id="seekLabel"> Seek
-            <input type="range" min="0" max="100" value="0" name="VideoSeekSlider" id="VideoSeekSlider" class="slider">
-        </label> 
+        <input type="range" min="0" max="100" value="0" name="VideoSeekSlider" id="VideoSeekSlider">
     </div>
 
     <div id="buttons">
@@ -148,7 +140,7 @@
             <td>
             <td>
                 <!-- Slider for players size -->
-                <input type="range" min="25" max="100" value="50" class="slider" id="size">
+                <input type="range" min="25" max="100" value="50" id="size">
             </td>
         </tr>
     </table>
@@ -157,16 +149,16 @@
             <td>
                 <!-- File inputs for each video -->
                 <br>
-                <input type="file" id="video1File" title="video1">
+                <input type="file" id="leftVideoFile" title="video1">
                 <br>
-                <input type="file" id="video2File" title="video2">
+                <input type="file" id="rightVideoFile" title="rightVideo">
                 <br>
                 <!-- Text inputs for each video URL -->
-                <!-- <br>
-                <input type="text" id="video1Url" placeholder="URL for video 1">
                 <br>
-                <input type="text" id="video2Url" placeholder="URL for video 2">
-            <td> -->
+                <input type="text" id="leftVideoUrl" placeholder="URL for video 1">
+                <br>
+                <input type="text" id="rightVideoUrl" placeholder="URL for video 2">
+            <td>
             <td>
                 <!-- Slider for container size -->
                 <button onclick="loadVideos()">Load Videos</button>
@@ -177,69 +169,67 @@
 
     <script>
         let container = document.getElementById("container");
+        let dualPlayerContainer = document.getElementById("player");
         let separator = document.getElementById("separator");
-        let video = document.getElementById("myVideo");
-        let video2 = document.getElementById("myVideo2");
+        let leftVideo = document.getElementById("leftPlayer");
+        let rightVideo = document.getElementById("rightPlayer");
         let VideoPlayerSizeSlider = document.getElementById("size");
         let VideoSeekSlider = document.getElementById("VideoSeekSlider");
         let timeDisplay = document.getElementById("timedisplay");
 
         // player video
         function playVideo() {
-            video.play();
-            video2.play();
+            leftVideo.play();
+            rightVideo.play();
         }
 
         function stopVideo() {
-            video.currentTime = 0;
-            video.pause();
-            video2.currentTime = 0;
-            video2.pause();
+            leftVideo.currentTime = 0;
+            leftVideo.pause();
+            rightVideo.currentTime = 0;
+            rightVideo.pause();
         }
 
         function pauseVideo() {
-            video.pause();
-            video2.pause();
+            leftVideo.pause();
+            rightVideo.pause();
         }
         function fastForward() {
-            video.currentTime += 10;
-            video2.currentTime += 10;
+            leftVideo.currentTime += 10;
+            rightVideo.currentTime += 10;
         }
 
         function rewind() {
-            video.currentTime -= 10;
-            video2.currentTime -= 10;
+            leftVideo.currentTime -= 10;
+            rightVideo.currentTime -= 10;
         }
         //video sync
         function videoSync() {
 
-            if (video.currentTime !== video2.currentTime) {
-                //console.log("avant: "+video.currentTime +"--"+video2.currentTime);
-                video2.currentTime = video.currentTime;
-                timeupdate1();
-                //console.log("apres: "+video.currentTime +"--"+video2.currentTime);
-                //console.log("sync done")
+            if (leftVideo.currentTime !== rightVideo.currentTime) {
+                console.log("before sync: " + video.currentTime + "--" + rightVideo.currentTime);
+                rightVideo.currentTime = leftVideo.currentTime;
+                timeupdate();
+                console.log("after: " + video.currentTime + "--" + rightVideo.currentTime);
             }
         }
         // display current time of each video and diff between both
         // seek slider position update
-        function timeupdate1() {
-            let curTime1 = video.currentTime;
-            let curTime2 = video2.currentTime;
-            let totalDuration=video.duration;
-            let timePosition=(curTime1/totalDuration)*100;
-            let diff = curTime2 - curTime1;
+        function timeupdate() {
+            let curLeftTime = leftVideo.currentTime;
+            let curRightTime = rightVideo.currentTime;
+            let totalDuration = leftVideo.duration;
+            let timePosition = (curLeftTime / totalDuration) * 100;
+            let diff = curRightTime - curLeftTime;
             diff = diff.toFixed(3);
             // 
-            currenttime1.textContent = convertHHMMSS(curTime1);
-            currenttime2.textContent = convertHHMMSS(curTime2);
-            difftime.textContent = "diff: "+ diff;
+            leftCurrentTime.textContent = convertHHMMSS(curLeftTime);
+            rightCurrentTime.textContent = convertHHMMSS(curRightTime);
+            difftime.textContent = "diff: " + diff;
             // seek slider position update 
-            VideoSeekSlider.value=timePosition;
-            console.log("time position:"+timePosition+ "%");
-
+            VideoSeekSlider.value = timePosition;
         }
-        video.addEventListener("timeupdate", timeupdate1);
+        leftVideo.addEventListener("timeupdate", timeupdate);
 
         // time display on/off 
         function toggleTimeDisplay() {
@@ -251,50 +241,50 @@
         }
         //load videos
         function loadVideos() {
-            let video1File = document.getElementById("video1File");
-            let video2File = document.getElementById("video2File");
-            let video1Url = document.getElementById("video1Url");
-            let video2Url = document.getElementById("video2Url");
-            if (video1File.files[0]) {
-                video.src = URL.createObjectURL(video1File.files[0]);
-                video1Name.textContent = video1File.files[0].name;
-            } else if (video1Url.value) {
-                video.src = video1Url.value;
-                video1Name.textContent = video1Url.value;
+            let leftVideoFile = document.getElementById("leftVideoFile");
+            let rightVideoFile = document.getElementById("rightVideoFile");
+            let leftVideoUrl = document.getElementById("leftVideoUrl");
+            let rightVideoUrl = document.getElementById("rightVideoUrl");
+            if (leftVideoFile.files[0]) {
+                leftVideo.src = URL.createObjectURL(leftVideoFile.files[0]);
+                leftVideoName.textContent = leftVideoFile.files[0].name;
+            } else if (leftVideoUrl.value) {
+                leftVideo.src = leftVideoUrl.value;
+                leftVideoName.textContent = leftVideoUrl.value;
             }
-            if (video2File.files[0]) {
-                video2.src = URL.createObjectURL(video2File.files[0]);
-                video2Name.textContent = video2File.files[0].name;
-            } else if (video2Url.value) {
-                video2.src = video2Url.value;
-                video2Name.textContent = video2Url.value;
+            if (rightVideoFile.files[0]) {
+                rightVideo.src = URL.createObjectURL(rightVideoFile.files[0]);
+                rightVideoName.textContent = rightVideoFile.files[0].name;
+            } else if (rightVideoUrl.value) {
+                rightVideo.src = rightVideoUrl.value;
+                rightVideoName.textContent = rightVideoUrl.value;
             }
         }
 
-        // gestion de la zone de separation par la souris
-        container.addEventListener('pointerdown', function (event) {
+        // managing the separation zone with the mouse
+        dualPlayerContainer.addEventListener('pointerdown', function (event) {
             if (event.button === 0) { // Bouton gauche de la souris
                 container.onmousemove = function (event) {
                     let rect = container.getBoundingClientRect();
-                    let x = event.clientX - rect.left; // Position X de la souris
-                    let width = rect.right - rect.left; // Largeur de la div
-                    let percentage = (x / width) * 100; // Position en pourcentage de la largeur de la div
-                    //masquage de la video 1
-                    video.style.clipPath = "inset(0 " + (100 - percentage) + "% 0 0)";
-                    // maj postion separateur 
+                    let x = event.clientX - rect.left; // mouse position on X axis 
+                    let width = rect.right - rect.left; // div width
+                    let percentage = (x / width) * 100; // 
+                    //
+                    leftVideo.style.clipPath = "inset(0 " + (100 - percentage) + "% 0 0)";
+                    //  
                     separator.style.left = percentage + "%";
                 }
             }
         });
 
         container.addEventListener('pointerup', function () {
-            container.onmousemove = null; // Arrête de suivre la souris lorsque le bouton est relâché
+            container.onmousemove = null; // Stops tracking the mouse when the button is released
         });
 
-        // gestion de l'appui sur la barre espace
+        // space bar management
         window.onkeydown = function (e) {
             if (e.keyCode == 32) { // 32 is the keyCode for the spacebar
-                if (video.paused) {
+                if (leftVideo.paused) {
                     playVideo();
                 } else {
                     pauseVideo();
@@ -312,34 +302,34 @@
             });
         });
 
-        // gestion VideoPlayerSizeSlider
+        //  VideoPlayerSizeSlider
         VideoPlayerSizeSlider.oninput = function () {
             container.style.width = this.value + "%";
             container.style.height = (this.value * 9 / 16) + "vw";
         }
 
-        // gestion seek slider 
+        //  seek slider 
         VideoSeekSlider.oninput = function () {
-            let seekTo = video.duration * (VideoSeekSlider.value / 100);
-            video.currentTime = seekTo;
-            video2.currentTime = seekTo;
-            videoSync();
+            let seekTo = leftVideo.duration * (VideoSeekSlider.value / 100);
+            leftVideo.currentTime = seekTo;
+            rightVideo.currentTime = seekTo;
         }
 
+        //
         function convertHHMMSS(currentTime) {
-            // // Calcul des heures, minutes et secondes
+            // 
             let hours = Math.floor(currentTime / 3600);
             let minutes = Math.floor((currentTime - (hours * 3600)) / 60);
             let seconds = Math.floor(currentTime - (hours * 3600) - (minutes * 60));
             let images = Math.floor((currentTime % 1) / 0.04);
 
-            // Ajoute un zéro devant si moins de 10
+            // 
             if (hours < 10) { hours = "0" + hours; }
             if (minutes < 10) { minutes = "0" + minutes; }
             if (seconds < 10) { seconds = "0" + seconds; }
             if (images < 10) { images = "0" + images; }
 
-            let texteFormat = hours + ':' + minutes + ':' + seconds + ':' + images + 'i';
+            let texteFormat = hours + ':' + minutes + ':' + seconds + ':' + images + 'i  ';
             return texteFormat;
         }
 
