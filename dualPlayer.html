@@ -176,13 +176,13 @@
 
 
     <script>
-        var container = document.getElementById("container");
-        var separator = document.getElementById("separator");
-        var video = document.getElementById("myVideo");
-        var video2 = document.getElementById("myVideo2");
-        var VideoPlayerSizeSlider = document.getElementById("size");
-        var VideoSeekSlider = document.getElementById("VideoSeekSlider");
-        var timeDisplay = document.getElementById("timedisplay");
+        let container = document.getElementById("container");
+        let separator = document.getElementById("separator");
+        let video = document.getElementById("myVideo");
+        let video2 = document.getElementById("myVideo2");
+        let VideoPlayerSizeSlider = document.getElementById("size");
+        let VideoSeekSlider = document.getElementById("VideoSeekSlider");
+        let timeDisplay = document.getElementById("timedisplay");
 
         // player video
         function playVideo() {
@@ -223,9 +223,9 @@
         }
         // display current time of each video
         function timeupdate1() {
-            var curtime1 = video.currentTime;
-            var curtime2 = video2.currentTime;
-            var diff = curtime2 - curtime1
+            let curtime1 = video.currentTime;
+            let curtime2 = video2.currentTime;
+            let diff = curtime2 - curtime1
             diff = diff.toFixed(3);
             currenttime1.textContent = convertHHMMSS(curtime1);
             currenttime2.textContent = convertHHMMSS(curtime2);
@@ -244,10 +244,10 @@
         }
         //load videos
         function loadVideos() {
-            var video1File = document.getElementById("video1File");
-            var video2File = document.getElementById("video2File");
-            var video1Url = document.getElementById("video1Url");
-            var video2Url = document.getElementById("video2Url");
+            let video1File = document.getElementById("video1File");
+            let video2File = document.getElementById("video2File");
+            let video1Url = document.getElementById("video1Url");
+            let video2Url = document.getElementById("video2Url");
             if (video1File.files[0]) {
                 video.src = URL.createObjectURL(video1File.files[0]);
                 video1Name.textContent = video1File.files[0].name;
@@ -268,10 +268,10 @@
         container.addEventListener('pointerdown', function (event) {
             if (event.button === 0) { // Bouton gauche de la souris
                 container.onmousemove = function (event) {
-                    var rect = container.getBoundingClientRect();
-                    var x = event.clientX - rect.left; // Position X de la souris
-                    var width = rect.right - rect.left; // Largeur de la div
-                    var percentage = (x / width) * 100; // Position en pourcentage de la largeur de la div
+                    let rect = container.getBoundingClientRect();
+                    let x = event.clientX - rect.left; // Position X de la souris
+                    let width = rect.right - rect.left; // Largeur de la div
+                    let percentage = (x / width) * 100; // Position en pourcentage de la largeur de la div
                     video.style.clipPath = "inset(0 " + (100 - percentage) + "% 0 0)";
                     separator.style.left = percentage + "%";
                     console.log('Position horizontale de la souris : ' + percentage + '%');
@@ -311,7 +311,7 @@
 
         // gestion seek slider 
         VideoSeekSlider.oninput = function () {
-            var seekTo = video.duration * (VideoSeekSlider.value / 100);
+            let seekTo = video.duration * (VideoSeekSlider.value / 100);
             video.currentTime = seekTo;
             video2.currentTime = seekTo;
             videoSync();
