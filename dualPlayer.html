@@ -3,8 +3,13 @@
 
 <head>
     <title>Dual Player</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
     <style>
         #container {
+            padding: 15px;
+        }
+
+        #containerP {
             position: relative;
             width: 1280px;
             /* Adjust as needed */
@@ -88,88 +93,81 @@
             transform: translate(-50%, -50%);
         }
     </style>
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
 </head>
 
 <body>
-    <p>Please use chrome</p>
     <div id="container">
-        <div id="player">
-            <video id="leftPlayer" src="shortvovf1.mp4" type="video/mp4" muted preload:auto autoplay></video>
-            <video id="rightPlayer" src="shortvovf2.mp4" type="video/mp4" muted preload:auto autoplay></video>
-            <!-- Separator line -->
-            <div id="separator"></div>
-            <!-- Video labels -->
-            <div id="leftVideoName" class="videoName"></div>
-            <div id="rightVideoName" class="videoName"></div>
-            <!-- Current an diff Time labels -->
-            <div id="timedisplay">
-                <div id="leftCurrentTime" class="currenttime"></div>
-                <div id="rightCurrentTime" class="currenttime"></div>
-                <div id="difftime" class="currenttime"></div>
+        <h3>Please use chrome</h3>
+        <div id="containerP">
+            <div id="player">
+                <video id="leftPlayer" src="shortvovf1.mp4" type="video/mp4" muted preload:auto autoplay></video>
+                <video id="rightPlayer" src="shortvovf2.mp4" type="video/mp4" muted preload:auto autoplay></video>
+                <!-- Separator line -->
+                <div id="separator"></div>
+                <!-- Video labels -->
+                <div id="leftVideoName" class="videoName"></div>
+                <div id="rightVideoName" class="videoName"></div>
+                <!-- Current an diff Time labels -->
+                <div id="timedisplay">
+                    <div id="leftCurrentTime" class="currenttime"></div>
+                    <div id="rightCurrentTime" class="currenttime"></div>
+                    <div id="difftime" class="currenttime"></div>
+                </div>
+            </div>
+            <div>
+                <!-- Slider for seeking -->
+                <input type="range" min="0" max="100" value="0" name="VideoSeekSlider" id="VideoSeekSlider" style="accent-color:#5755d9;">
             </div>
         </div>
-        <div>
-            <!-- Slider for seeking -->
-            <input type="range" min="0" max="100" value="0" name="VideoSeekSlider" id="VideoSeekSlider">
+
+        <div id="buttons">
+            <br>
+            <button class="btn btn-primary  btn-sm" onclick="playVideo()">Play</button>
+            <button class="btn btn-primary  btn-sm" onclick="stopVideo()">Stop</button>
+            <button class="btn btn-primary  btn-sm" onclick="pauseVideo()">Pause</button>
+            <button class="btn btn-primary  btn-sm" onclick="rewind()"> &lt;&lt; </button>
+            <button class="btn btn-primary  btn-sm" onclick="fastForward()"> &gt;&gt; </button>
+            <button class="btn btn-primary  btn-sm" onclick="toggleTimeDisplay()">Time display ON/OFF</button>
+            <button class="btn btn-primary  btn-sm" onclick="videoSync()">Players sync</button>
         </div>
-    </div>
+        <!-- player size-->
+        <div class="form-group">
+            <label class="form-label form-inline">Player Size:</label>
 
-    <div id="buttons">
-        <br>
-        <button onclick="playVideo()">Play</button>
-        <button onclick="stopVideo()">Stop</button>
-        <button onclick="pauseVideo()">Pause</button>
-        <button onclick="rewind()"> &lt;&lt; </button>
-        <button onclick="fastForward()"> &gt;&gt; </button>
-        <button onclick="toggleTimeDisplay()">Time display ON/OFF</button>
-        <button onclick="videoSync()">Players sync</button>
-    </div>
-    <table>
-        <tr>
-            <td>
-                <label>Player Size:</label>
+            <label for="size50" class="form-radio form-inline">
                 <input type="radio" id="size50" name="size" value="50">
-                <label for="size50">50%</label>
-                <input type="radio" id="size75" name="size" value="75">
-                <label for="size75">75%</label>
-                <input type="radio" id="size85" name="size" value="85" checked>
-                <label for="size95">85%</label>
-                <input type="radio" id="size90" name="size" value="90">
-                <label for="size95">90%</label>
+                <i class="form-icon"></i> 50%
+            </label>
+
+            <label for="size75" class="form-radio form-inline">
+                <input type="radio" id="size75" name="size" value="75" checked>
+                <i class="form-icon"></i> 75%
+            </label>
+
+            <label for="size95" class="form-radio form-inline">
                 <input type="radio" id="size95" name="size" value="95">
-                <label for="size95">95%</label>
-                <input type="radio" id="size100" name="size" value="100">
-                <label for="size95">100%</label>
-            <td>
-            <td>
-                <!-- Slider for players size -->
-                <input type="range" min="25" max="100" value="50" id="size">
-            </td>
-        </tr>
-    </table>
-    <table>
-        <tr>
-            <td>
-                <!-- File inputs for each video -->
-                <br>
-                <input type="file" id="leftVideoFile" title="video1">
-                <br>
-                <input type="file" id="rightVideoFile" title="rightVideo">
-                <br>
-                <!-- Text inputs for each video URL -->
-                <br>
-                <input type="text" id="leftVideoUrl" placeholder="URL for video 1">
-                <br>
-                <input type="text" id="rightVideoUrl" placeholder="URL for video 2">
-            <td>
-            <td>
-                <!-- Slider for container size -->
-                <button onclick="loadVideos()">Load Videos</button>
-            </td>
-        </tr>
-    </table>
+                <i class="form-icon"></i> 95%
+            </label>
+            <!-- Slider for players size -->
+            <input type="range" min="25" max="100" value="50" id="size" style="accent-color:#5755d9">
+        </div>
+
+        <!-- File inputs for each video -->
+        <input class="form-input"  type="file" id="leftVideoFile" title="leftVideo" style="width:50%">
+        <input class="form-input"  type="file" id="rightVideoFile" title="rightVideo" style="width:50%">
+        <!-- Text inputs for each video URL -->
+        <br>
+        <button class="btn btn-primary " onclick="loadVideos()">Load Videos</button>
+        <!-- Text inputs for each video URL -->
+        <br><br>
+        <input class="form-input" type="text" id="leftVideoUrl" style="width:50%" placeholder="URL for left video ">
+        <input class="form-input" type="text" id="rightVideoUrl" style="width:50%" placeholder="URL for right video ">
 
 
+    </div>
     <script>
         let container = document.getElementById("container");
         let dualPlayerContainer = document.getElementById("player");
