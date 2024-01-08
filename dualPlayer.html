@@ -119,18 +119,22 @@
             </div>
             <div>
                 <!-- Slider for seeking -->
-                <input type="range" min="0" max="100" value="0" name="VideoSeekSlider" id="VideoSeekSlider" style="accent-color:#5755d9;">
+                <input type="range" min="0" max="100" value="0" name="VideoSeekSlider" id="VideoSeekSlider"
+                    style="accent-color:#5755d9;">
             </div>
         </div>
-
+        <br>
         <div id="buttons">
-            <br>
+
             <button class="btn btn-primary  btn-sm" onclick="playVideo()">Play</button>
             <button class="btn btn-primary  btn-sm" onclick="stopVideo()">Stop</button>
             <button class="btn btn-primary  btn-sm" onclick="pauseVideo()">Pause</button>
             <button class="btn btn-primary  btn-sm" onclick="rewind()"> &lt;&lt; </button>
             <button class="btn btn-primary  btn-sm" onclick="fastForward()"> &gt;&gt; </button>
-            <button class="btn btn-primary  btn-sm" onclick="toggleTimeDisplay()">Time display ON/OFF</button>
+            <label class="form-switch form-inline">
+                <input type="checkbox" onclick="toggleTimeDisplay()" checked>
+                <i class="form-icon"></i> Time display
+            </label>
             <button class="btn btn-primary  btn-sm" onclick="videoSync()">Players sync</button>
         </div>
         <!-- player size-->
@@ -156,8 +160,8 @@
         </div>
 
         <!-- File inputs for each video -->
-        <input class="form-input"  type="file" id="leftVideoFile" title="leftVideo" style="width:50%">
-        <input class="form-input"  type="file" id="rightVideoFile" title="rightVideo" style="width:50%">
+        <input class="form-input" type="file" id="leftVideoFile" title="leftVideo" style="width:50%">
+        <input class="form-input" type="file" id="rightVideoFile" title="rightVideo" style="width:50%">
         <!-- Text inputs for each video URL -->
         <br>
         <button class="btn btn-primary " onclick="loadVideos()">Load Videos</button>
