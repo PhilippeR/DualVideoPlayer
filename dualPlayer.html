@@ -209,10 +209,10 @@
         function videoSync() {
 
             if (leftVideo.currentTime !== rightVideo.currentTime) {
-                console.log("before sync: " + video.currentTime + "--" + rightVideo.currentTime);
+                console.log("before sync: " + leftVideo.currentTime + "--" + rightVideo.currentTime);
                 rightVideo.currentTime = leftVideo.currentTime;
                 timeupdate();
-                console.log("after: " + video.currentTime + "--" + rightVideo.currentTime);
+                console.log("after: " + leftVideo.currentTime + "--" + rightVideo.currentTime);
             }
         }
         // display current time of each video and diff between both
