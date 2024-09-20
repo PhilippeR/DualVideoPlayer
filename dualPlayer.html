@@ -306,8 +306,17 @@
                     pauseVideo();
                 }
                 e.preventDefault(); // prevent the default action (scroll / move caret)
+            } else if (e.keyCode == 37) { // 37 is the keyCode for the left arrow
+                leftVideo.currentTime = leftVideo.currentTime-0.040;
+                videoSync();
+                e.preventDefault(); // prevent the default action (scroll / move caret)
+            } else if (e.keyCode == 39) { // 39 is the keyCode for the right arrow
+                leftVideo.currentTime = leftVideo.currentTime+0.040;
+                videoSync();
+                e.preventDefault(); // prevent the default action (scroll / move caret)
             }
         }
+
 
         // Event listener for container size radio buttons
         document.querySelectorAll('input[name="size"]').forEach((elem) => {
