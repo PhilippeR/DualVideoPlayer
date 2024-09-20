@@ -136,6 +136,7 @@
                 <i class="form-icon"></i> Time display
             </label>
             <button class="btn btn-primary  btn-sm" onclick="videoSync()">Players sync</button>
+            <!-- <button class="btn btn-primary  btn-sm" onclick="toggleFullScreen()">Fullscreen</button> -->
         </div>
         <!-- player size-->
         <div class="form-group">
@@ -159,13 +160,13 @@
             <input type="range" min="25" max="100" value="50" id="size" style="accent-color:#5755d9">
         </div>
 
-        <!-- File inputs for each video -->
+        <!-- File input for each video -->
         <input class="form-input" type="file" id="leftVideoFile" title="leftVideo" style="width:50%">
         <input class="form-input" type="file" id="rightVideoFile" title="rightVideo" style="width:50%">
         <!-- Text inputs for each video URL -->
         <br>
         <button class="btn btn-primary " onclick="loadVideos()">Load Videos</button>
-        <!-- Text inputs for each video URL -->
+        <!-- Text input for each video URL -->
         <br><br>
         <input class="form-input" type="text" id="leftVideoUrl" style="width:50%" placeholder="URL for left video ">
         <input class="form-input" type="text" id="rightVideoUrl" style="width:50%" placeholder="URL for right video ">
@@ -244,6 +245,15 @@
                 timeDisplay.style.display = "block";
             }
         }
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.getElementById("containerP").requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
         //load videos
         function loadVideos() {
             let leftVideoFile = document.getElementById("leftVideoFile");
@@ -301,16 +311,16 @@
         // Event listener for container size radio buttons
         document.querySelectorAll('input[name="size"]').forEach((elem) => {
             elem.addEventListener("change", function (event) {
-                container.style.width = event.target.value + "%";
+                containerP.style.width = event.target.value + "%";
                 // keep container 16/9 aspect ratio
-                container.style.height = (event.target.value * 9 / 16) + "vw";
+                containerP.style.height = (event.target.value * 9 / 16) + "vw";
             });
         });
 
         //  VideoPlayerSizeSlider
         VideoPlayerSizeSlider.oninput = function () {
-            container.style.width = this.value + "%";
-            container.style.height = (this.value * 9 / 16) + "vw";
+            containerP.style.width = this.value + "%";
+            containerP.style.height = (this.value * 9 / 16) + "vw";
         }
 
         //  seek slider 
