@@ -245,6 +245,7 @@
                 timeDisplay.style.display = "block";
             }
         }
+        // players full screen
         function toggleFullScreen() {
             if (!document.fullscreenElement) {
                 document.getElementById("containerP").requestFullscreen();
@@ -278,7 +279,7 @@
 
         // managing the separation zone with the mouse
         dualPlayerContainer.addEventListener('pointerdown', function (event) {
-            if (event.button === 0) { // Bouton gauche de la souris
+            if (event.button === 0) { // mouse left button
                 container.onmousemove = function (event) {
                     let rect = container.getBoundingClientRect();
                     let x = event.clientX - rect.left; // mouse position on X axis 
@@ -317,7 +318,7 @@
             });
         });
 
-        //  VideoPlayerSizeSlider
+        //  VideoPlayerSizeSlider management
         VideoPlayerSizeSlider.oninput = function () {
             containerP.style.width = this.value + "%";
             containerP.style.height = (this.value * 9 / 16) + "vw";
@@ -344,7 +345,7 @@
             if (seconds < 10) { seconds = "0" + seconds; }
             if (images < 10) { images = "0" + images; }
 
-            let texteFormat = hours + ':' + minutes + ':' + seconds + ':' + images + 'i  ';
+            let texteFormat = hours + 'h:' + minutes + 'm:' + seconds + 's:' + images + ' images  ';
             return texteFormat;
         }
 
