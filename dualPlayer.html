@@ -297,25 +297,37 @@
             container.onmousemove = null; // Stops tracking the mouse when the button is released
         });
 
-        // space bar management
+        //key donw management 
         window.onkeydown = function (e) {
-            if (e.keyCode == 32) { // 32 is the keyCode for the spacebar
-                if (leftVideo.paused) {
-                    playVideo();
-                } else {
-                    pauseVideo();
-                }
-                e.preventDefault(); // prevent the default action (scroll / move caret)
-            } else if (e.keyCode == 37) { // 37 is the keyCode for the left arrow
-                leftVideo.currentTime = leftVideo.currentTime-0.040;
-                videoSync();
-                e.preventDefault(); // prevent the default action (scroll / move caret)
-            } else if (e.keyCode == 39) { // 39 is the keyCode for the right arrow
-                leftVideo.currentTime = leftVideo.currentTime+0.040;
-                videoSync();
-                e.preventDefault(); // prevent the default action (scroll / move caret)
+            switch (e.keyCode) {
+                case 32: // 32 is the keyCode for the spacebar
+                    if (leftVideo.paused) {
+                        playVideo();
+                    } else {
+                        pauseVideo();
+                    }
+                    e.preventDefault(); // prevent the default action (scroll / move caret)
+                    break;
+
+                case 82: // 82 is the keyCode for 'R'
+                    console.log("Touche R, code 82 ");
+                    videoSync();
+                    e.preventDefault(); // prevent the default action (scroll / move caret)
+                    break;
+
+                case 37: // 37 is the keyCode for the left arrow
+                    leftVideo.currentTime = leftVideo.currentTime - 0.040;
+                    videoSync();
+                    e.preventDefault(); // prevent the default action (scroll / move caret)
+                    break;
+
+                case 39: // 39 is the keyCode for the right arrow
+                    leftVideo.currentTime = leftVideo.currentTime + 0.040;
+                    videoSync();
+                    e.preventDefault(); // prevent the default action (scroll / move caret)
+                    break;
             }
-        }
+        };
 
 
         // Event listener for container size radio buttons
