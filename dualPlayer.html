@@ -212,12 +212,12 @@
         //video sync
         function videoSync() {
 
-            if (leftVideo.currentTime !== rightVideo.currentTime) {
-                console.log("before sync: " + leftVideo.currentTime + "--" + rightVideo.currentTime);
-                rightVideo.currentTime = leftVideo.currentTime;
-                timeupdate();
-                console.log("after: " + leftVideo.currentTime + "--" + rightVideo.currentTime);
-            }
+            console.log("before sync: leftVideo.currentTime -- rightVideo.currentTime ");
+            console.log("before sync: " + leftVideo.currentTime + " -- " + rightVideo.currentTime);
+            rightVideo.currentTime = leftVideo.currentTime;
+            timeupdate();
+            console.log("after: " + leftVideo.currentTime + "--" + rightVideo.currentTime);
+
         }
         // display current time of each video and diff between both
         // seek slider position update
@@ -311,19 +311,41 @@
 
                 case 82: // 82 is the keyCode for 'R'
                     console.log("Touche R, code 82 ");
-                    videoSync();
+                    if (leftVideo.paused) {
+                        videoSync();
+                    } else {
+                        pauseVideo();
+                        videoSync();
+                        playVideo();
+                    }
                     e.preventDefault(); // prevent the default action (scroll / move caret)
                     break;
 
                 case 37: // 37 is the keyCode for the left arrow
-                    leftVideo.currentTime = leftVideo.currentTime - 0.040;
-                    videoSync();
+                    if (leftVideo.paused) {
+                        leftVideo.currentTime = leftVideo.currentTime - 0.040;
+                        videoSync();
+                    } else {
+                        pauseVideo();
+                        leftVideo.currentTime = leftVideo.currentTime - 0.040;
+                        videoSync();
+                        playVideo();
+                    }
+
                     e.preventDefault(); // prevent the default action (scroll / move caret)
                     break;
 
                 case 39: // 39 is the keyCode for the right arrow
-                    leftVideo.currentTime = leftVideo.currentTime + 0.040;
-                    videoSync();
+                    if (leftVideo.paused) {
+                        leftVideo.currentTime = leftVideo.currentTime + 0.040;
+                        videoSync();
+                    } else {
+                        pauseVideo();
+                        leftVideo.currentTime = leftVideo.currentTime + 0.040;
+                        videoSync();
+                        playVideo();
+                    }
+
                     e.preventDefault(); // prevent the default action (scroll / move caret)
                     break;
             }
